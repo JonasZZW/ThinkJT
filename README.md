@@ -9,7 +9,7 @@
 * QQ交流群：870505482
 
 * Demo（先在上面玩玩看），每天会还原数据
-   > http://tkt.noear.org/.admin/?_L0n5=1CE24B1CF36B0C5B94AACE6263DBD947FFA53531
+   > http://jtt.noear.org/.admin/?_L0n5=1CE24B1CF36B0C5B94AACE6263DBD947FFA53531
 
 
 ##  部署指南（用/bin/下的文件）
