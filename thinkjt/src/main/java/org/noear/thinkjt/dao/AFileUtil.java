@@ -18,7 +18,7 @@ public class AFileUtil {
     public static String path2(String path){
         if (path.endsWith("/") == false) {
             if (path.lastIndexOf('/') > path.lastIndexOf('.')) {
-                path = path.replaceAll("/[^/]*$", "/*");
+                return path.replaceAll("/[^/]*$", "/*");
             }
         }
 

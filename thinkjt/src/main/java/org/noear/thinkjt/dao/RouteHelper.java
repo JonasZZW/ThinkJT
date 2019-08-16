@@ -23,9 +23,9 @@ public class RouteHelper {
     }
 
     public static void reset() {
-        List<AFileModel> all_paths = null;
+        List<String> all_paths = null;
         try {
-            all_paths = DbApi.fileGetPaths(null,null);
+            all_paths = DbApi.fileGetPathAll();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -33,8 +33,8 @@ public class RouteHelper {
         if (all_paths != null) {
             _set.clear();
 
-            all_paths.forEach(f -> {
-                add(f.path);
+            all_paths.forEach(path -> {
+                add(path);
             });
         }
     }

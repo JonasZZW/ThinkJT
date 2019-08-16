@@ -92,8 +92,10 @@ public class ExcUtil {
         } catch (Exception ex) {
             //如果出错，输出异常
             String err = ExceptionUtils.getString(ex);
-            ctx.output(err);
-            LogUtil.log("_file", file.tag, file.path, 0, ctx.path(), err);
+            if(ctx != null) {
+                ctx.output(err);
+            }
+            LogUtil.log("_file", file.tag, file.path, 0, "", err);
 
             return null;
         }

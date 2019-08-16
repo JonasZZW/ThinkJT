@@ -59,6 +59,11 @@ public class DbApi {
                 .getList(AFileModel.class);
     }
 
+    public static List<String> fileGetPathAll() throws Exception {
+        return db().table("a_file").select("path")
+                .getDataList().toArray(0);
+    }
+
     public static boolean fileSet(int fid, String fcontent) throws Exception {
         if(fid<1){
             return false;

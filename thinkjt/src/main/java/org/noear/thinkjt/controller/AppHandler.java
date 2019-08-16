@@ -19,15 +19,17 @@ public class AppHandler implements XHandler {
 
     private void do_handle(String path,XContext ctx) throws Exception {
         String path2 = AFileUtil.path2(path);
-        String name = path2.replace("/", "__");
+        String name = null;
 
         AFileModel file = null;
 
         //::先用路由工具做检测，防止数据库被恶意刷暴
         if(RouteHelper.has(path)){
             file = AFileUtil.get(path);
+            name = path.replace("/", "__");
         }else if(RouteHelper.has(path2)){
             file = AFileUtil.get(path2);
+            name = path2.replace("/", "__");
         }
 
         //文件不存在，则404
