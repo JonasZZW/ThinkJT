@@ -108,8 +108,7 @@ public class ExcUtil {
         //最后是动态的
         if (file.edit_mode.equals("javascript")) {
             String path = file.path;
-            String path2 = AFileUtil.path2(path);
-            String name = path2.replace("/", "__");
+            String name = path.replace("/", "__");
 
             JsxUtil.g().runApi(name, file, true);
         }
