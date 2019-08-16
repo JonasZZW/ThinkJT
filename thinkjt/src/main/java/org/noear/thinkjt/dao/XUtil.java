@@ -82,6 +82,11 @@ public class XUtil {
         return new ArrayList<>();
     }
 
+    @XNote("创建一个List<Object>集合")
+    public List<Object> newList(Object[] ary) {
+        return Arrays.asList(ary);
+    }
+
     @XNote("创建一个Set<Object>集合")
     public Set<Object> newSet() {
         return new HashSet<>();

@@ -64,7 +64,7 @@ public class PagingModel {
 
     @XNote("是否有下一页")
     public boolean hasNext() {
-        return pages() > pageNext();
+        return pages() >= pageNext();
     }
 
     @XNote("总页数")
