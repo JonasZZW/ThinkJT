@@ -3,6 +3,7 @@ package org.noear.thinkjt.controller;
 import org.noear.thinkjt.dao.*;
 import org.noear.solon.core.XContext;
 import org.noear.solon.core.XHandler;
+import org.noear.thinkjt.utils.ExceptionUtils;
 
 import java.io.PrintWriter;
 
@@ -31,12 +32,10 @@ public class FrmInterceptor implements XHandler {
 
         try {
             JsxUtil.g().runApi(name, file, true);
-        }catch (Exception ex){
-            PrintWriter pw = new PrintWriter(ctx.outputStream());
-
-            ex.printStackTrace(pw);
-
-            pw.flush();
+        }catch (Exception ex) {
+            String err = ExceptionUtils.getString(ex);
+            ctx.output(err);
+            LogUtil.log("_file", file.tag, file.path, 0, ctx.path(), err);
 
             ctx.setHandled(true);
         }

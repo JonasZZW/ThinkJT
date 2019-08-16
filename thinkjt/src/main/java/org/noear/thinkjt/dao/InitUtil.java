@@ -52,7 +52,7 @@ public class InitUtil {
                 "  UNIQUE KEY `IX_key` (`name`) USING BTREE,\n" +
                 "  KEY `IX_tag` (`tag`) USING BTREE,\n" +
                 "  KEY `IX_label` (`label`) USING BTREE\n" +
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='tk-配置表';").execute();
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='jt-配置表';").execute();
 
         db().sql("CREATE TABLE IF NOT EXISTS `a_file` (\n" +
                 "  `file_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文件ID',\n" +
@@ -81,7 +81,7 @@ public class InitUtil {
                 "  UNIQUE KEY `IX_key` (`path`) USING HASH,\n" +
                 "  KEY `IX_tag` (`tag`) USING BTREE,\n" +
                 "  KEY `IX_label` (`label`) USING BTREE\n" +
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='tk-文件表';").execute();
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='jt-文件表';").execute();
 
         db().sql("CREATE TABLE IF NOT EXISTS `a_image` (\n" +
                 "  `img_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '图片ID',\n" +
@@ -98,17 +98,26 @@ public class InitUtil {
                 "  UNIQUE KEY `IX_key` (`path`) USING BTREE,\n" +
                 "  KEY `IX_tag` (`tag`) USING BTREE,\n" +
                 "  KEY `IX_label` (`label`) USING BTREE\n" +
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='tk-图片表';").execute();
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='tj-图片表';").execute();
 
         db().sql("CREATE TABLE IF NOT EXISTS `a_log` (\n" +
-                "  `log_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '日志ID',\n" +
-                "  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',\n" +
-                "  `ip` varchar(99) DEFAULT NULL COMMENT '客户端IP',\n" +
-                "  `path` varchar(255) DEFAULT NULL COMMENT '访问路径',\n" +
+                "  `log_id` bigint(20) NOT NULL AUTO_INCREMENT,\n" +
+                "  `level` int(11) NOT NULL DEFAULT '0' COMMENT '等级',\n" +
+                "  `tag` varchar(99) NOT NULL DEFAULT '' COMMENT '标签',\n" +
+                "  `tag1` varchar(99) NOT NULL DEFAULT '' COMMENT '标签1',\n" +
+                "  `tag2` varchar(99) NOT NULL DEFAULT '' COMMENT '标签2',\n" +
+                "  `tag3` varchar(99) NOT NULL DEFAULT '' COMMENT '标签3',\n" +
+                "  `summary` varchar(1000) NOT NULL DEFAULT '' COMMENT '摘要',\n" +
+                "  `content` longtext COMMENT '内容',\n" +
                 "  `log_date` int(11) NOT NULL DEFAULT '0' COMMENT '记录日期',\n" +
-                "  `log_fulltime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '记录完整时间',\n" +
-                "  PRIMARY KEY (`log_id`)\n" +
-                ") ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COMMENT='tk-日志表';").execute();
+                "  `log_fulltime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录完整时间',\n" +
+                "  PRIMARY KEY (`log_id`),\n" +
+                "  KEY `IX_date` (`log_date`) USING BTREE,\n" +
+                "  KEY `IX_tag` (`tag`) USING BTREE,\n" +
+                "  KEY `IX_tag1` (`tag1`) USING BTREE,\n" +
+                "  KEY `IX_tag2` (`tag2`) USING BTREE,\n" +
+                "  KEY `IX_tag3` (`tag3`) USING BTREE\n" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='jt-日志表';").execute();
 
         db().sql("CREATE TABLE IF NOT EXISTS `a_plugin` (\n" +
                 "  `plugin_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '插件ID',\n" +
@@ -134,7 +143,7 @@ public class InitUtil {
                 "  KEY `IX_tag` (`tag`) USING BTREE,\n" +
                 "  KEY `IX_category` (`category`) USING BTREE,\n" +
                 "  KEY `IX_label` (`label`) USING BTREE\n" +
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='tk-插件表';").execute();
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='jt-插件表';").execute();
 
 
         System.out.println("Complete table structure");

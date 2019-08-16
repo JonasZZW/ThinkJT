@@ -1,5 +1,7 @@
 package org.noear.thinkjt.dao;
 
+import org.noear.thinkjt.utils.ExceptionUtils;
+
 import java.util.Date;
 
 /**

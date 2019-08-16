@@ -439,4 +439,9 @@ public class XUtil {
     public String callHook(String tag,String label) {
         return CallUtil.callHook(tag, label);
     }
+
+    @XNote("日志")
+    public long log(Map<String,Object> data) {
+        return LogUtil.log(data);
+    }
 }

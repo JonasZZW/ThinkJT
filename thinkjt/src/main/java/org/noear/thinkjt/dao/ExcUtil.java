@@ -1,9 +1,12 @@
 package org.noear.thinkjt.dao;
 
+import org.noear.thinkjt.utils.ExceptionUtils;
 import org.noear.thinkjt.utils.TextUtils;
 import org.noear.solon.core.XContext;
 
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,38 +61,39 @@ public class ExcUtil {
     /**
      * 执行一个文件并返回
      * */
-    public static Object call(String name,AFileModel file, XContext ctx, boolean asApi) throws Exception{
+    public static Object call(String name,AFileModel file, XContext ctx, boolean asApi) throws Exception {
 
         try {
-            if(file.edit_mode.equals("javascript")) {
+            if (file.edit_mode.equals("javascript")) {
                 /**
                  * 用javascript引擎执行
                  * */
                 Object tmp = JsxUtil.g().runApi(name, file, asApi);
 
-                if(tmp == null){
+                if (tmp == null) {
                     return null;
-                }else{
-                    if(asApi) {
+                } else {
+                    if (asApi) {
                         return tmp.toString();
-                    }else{
+                    } else {
                         return tmp;
                     }
                 }
 
-            }else{
+            } else {
                 /**
                  * 用freemark引擎执行
                  * */
                 Map<String, Object> model = new HashMap<>();
                 model.put("ctx", ctx);
 
-                return FtlUtil.g().reander(name,file, model).trim();
+                return FtlUtil.g().reander(name, file, model).trim();
             }
         } catch (Exception ex) {
             //如果出错，输出异常
-            PrintStream ps = new PrintStream(ctx.outputStream());
-            ex.printStackTrace(ps);
+            String err = ExceptionUtils.getString(ex);
+            ctx.output(err);
+            LogUtil.log("_file", file.tag, file.path, 0, ctx.path(), err);
 
             return null;
         }

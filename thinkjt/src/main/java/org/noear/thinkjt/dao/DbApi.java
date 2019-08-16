@@ -7,7 +7,9 @@ import org.noear.weed.DbContext;
 import org.noear.weed.DbTableQuery;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 引擎基础的数据库处理接口
@@ -233,5 +235,71 @@ public class DbApi {
                 })
                 .where("file_id=?", task.file_id)
                 .update();
+    }
+
+    public static long do_log(Map<String,Object> data)  {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("level", data.get("level"));
+        map.put("tag", data.get("tag"));
+        map.put("tag1", data.get("tag1"));
+        map.put("tag2", data.get("tag2"));
+        map.put("tag3", data.get("tag3"));
+        map.put("summary", data.get("summary"));
+        map.put("content", data.get("content"));
+
+        map.put("log_date",Datetime.Now().getDate());
+        map.put("log_fulltime","$NOW()");
+
+        try {
+            return db().table("a_log")
+                    .setMap(map)
+                    .insert();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return 0;
+        }
+    }
+
+
+    public static long do_log(String tag, String tag1,String tag2, String tag3,int level,String summary,String content)  {
+        Map<String,Object> map = new HashMap<>();
+
+        if(tag != null){
+            map.put("tag", tag);
+        }
+
+        if(tag1 != null){
+            map.put("tag1", tag1);
+        }
+
+        if(tag2 != null){
+            map.put("tag2", tag2);
+        }
+
+        if(tag3 != null){
+            map.put("tag3", tag3);
+        }
+
+        if(summary != null){
+            map.put("summary", summary);
+        }
+
+        if(content != null){
+            map.put("content", content);
+        }
+
+        map.put("level", level);
+        map.put("log_date",Datetime.Now().getDate());
+        map.put("log_fulltime","$NOW()");
+
+        try {
+            return db().table("a_log")
+                    .setMap(map)
+                    .insert();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return 0;
+        }
     }
 }

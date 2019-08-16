@@ -1,11 +1,9 @@
 package org.noear.thinkjt.controller;
 
 
-import org.noear.thinkjt.dao.AFileModel;
-import org.noear.thinkjt.dao.DbApi;
-import org.noear.thinkjt.dao.ExcUtil;
-import org.noear.thinkjt.dao.TaskUtil;
+import org.noear.thinkjt.dao.*;
 import org.noear.thinkjt.utils.Datetime;
+import org.noear.thinkjt.utils.ExceptionUtils;
 import org.noear.thinkjt.utils.Timecount;
 import org.noear.thinkjt.utils.Timespan;
 
@@ -19,7 +17,7 @@ import java.util.List;
 public class TaskProcessor implements TaskUtil.ITask {
     @Override
     public String getName() {
-        return "task";
+        return "_task";
     }
 
     @Override
@@ -55,9 +53,16 @@ public class TaskProcessor implements TaskUtil.ITask {
             ex.printStackTrace();
 
             try {
+                String err = ExceptionUtils.getString(ex);
+                LogUtil.log("_task", task.tag, task.path, 0, null, err);
+            } catch (Exception ee) {
+                ee.printStackTrace();
+            }
+
+            try {
                 DbApi.taskSetState(task, 8);
-            } catch (Exception ex2) {
-                ex2.printStackTrace();
+            } catch (Exception ee) {
+                ee.printStackTrace();
             }
         }
     }
