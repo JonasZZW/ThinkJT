@@ -16,15 +16,15 @@ public class FrmInterceptor implements XHandler {
     @Override
     public void handle(XContext ctx) throws Exception {
         String path = ctx.path();
-        String path2 = AFileUtil.path3(path);
+        String path3 = AFileUtil.path3(path);
 
-        if(path2 == null){
+        if(path3 == null){
             return;
         }
 
-        String name = path2.replace("/", "__");
+        String name = path3.replace("/", "__");
 
-        AFileModel file = AFileUtil.get(path2);
+        AFileModel file = AFileUtil.get(path3);
 
         if (file.file_id == 0) {
             return;

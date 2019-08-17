@@ -15,6 +15,7 @@ import org.noear.weed.DbContext;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -103,9 +104,9 @@ public class XUtil {
     }
 
     /**
-     * 编译html
+     * 编码html
      */
-    @XNote("编译html")
+    @XNote("编码html")
     public String htmlEncode(String str) {
         if (str == null) {
             return "";
@@ -114,6 +115,24 @@ public class XUtil {
             str = str.replaceAll(">", "&gt;");
         }
         return str;
+    }
+
+    @XNote("编码url")
+    public String urlEncode(String str) throws Exception{
+        if(str == null){
+            return str;
+        }
+
+       return URLEncoder.encode(str, "utf-8");
+    }
+
+    @XNote("解码url")
+    public String urlDecode(String str) throws Exception{
+        if(str == null){
+            return str;
+        }
+
+        return URLDecoder.decode(str, "utf-8");
     }
 
     /**
