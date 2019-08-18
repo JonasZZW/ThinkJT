@@ -407,9 +407,20 @@ public class XUtil {
         return ImageUtils.getValidationImage(code);
     }
 
-    @XNote("Stream转为String")
-    public String streamToString(InputStream stream) throws Exception {
-        return IOUtils.toString(stream, "utf-8");
+    @XNote("InputStream转为String")
+    public String streamToString(InputStream inStream) throws Exception {
+        return IOUtils.toString(inStream, "utf-8");
+    }
+
+    @XNote("OutStream转为InputStream")
+    public InputStream streamOutToIn(OutputStream outStream) throws Exception
+    {
+        return IOUtils.outToIn(outStream);
+    }
+
+    @XNote("String转为InputStream")
+    public InputStream stringToStream(String str) throws Exception{
+        return new ByteArrayInputStream(str.getBytes("UTF-8"));
     }
 
     @XNote("Object转为ONode")
@@ -433,11 +444,6 @@ public class XUtil {
         return Thumbnails.of(file.content);
     }
 
-    @XNote("将OutStream转为InputStream")
-    public InputStream outToIn(OutputStream out0) throws Exception
-    {
-        return IOUtils.trans(out0);
-    }
 
     @XNote("是否为数字")
     public boolean isNumber(String str) {

@@ -33,7 +33,7 @@ public class JsxEngine {
         try {
             StringBuilder sb = new StringBuilder();
 
-            sb.append("var __global=this;");
+            sb.append("var __global={lib:{}};");
 
             sb.append("Date.prototype.toJSON =function(){ return this.getTime()};");
 
@@ -45,8 +45,8 @@ public class JsxEngine {
             sb.append("var Timespan = Java.type('org.noear.thinkjt.utils.Timespan');");
 
             sb.append("function modelAndView(tml,mod){return JTAPI.modelAndView(tml,mod);};");
-            sb.append("function require(path){var c=JTAPI.require(path); return eval(c);}");
-
+            //sb.append("function require(path){var c=JTAPI.require(path); return eval(c);}");
+            sb.append("function require(path){JTAPI.require(path);return __global.lib[path]}");
 
             //为JSON.stringify 添加java的对象处理
             //sb.append("function stringify_java(k,v){if(v){if(v.getTicks){return v.getTicks()}if(v.getTime){return v.getTime()}if(v.addAll||v.putAll){return JSON.parse(JTAPI.serialize_obj(v))}}return v};");
@@ -78,19 +78,20 @@ public class JsxEngine {
         }
 
         public String require(String path) throws Exception {
-            String path2 = path; //AFileUtil.path2(path); //不用转为*
-            String name = path2.replace("/", "__");
+            String name = path.replace("/", "__");
             String name2 = name.replace(".", "_") + "__lib";
 
-            AFileModel file = AFileUtil.get(path2);
+            AFileModel file = AFileUtil.get(path);
 
             JsxUtil.g().tryInitApi(name2, file);
 
-            return new StringBuilder()
-                    .append("API_")
-                    .append(name2)
-                    .append(".g")
-                    .toString();
+            return name2;
+
+//            return new StringBuilder()
+//                    .append("this.API_")
+//                    .append(name2)
+//                    .append(".g")
+//                    .toString();
         }
 
         public Object modelAndView(String path, Map<String, Object> model) throws Exception {

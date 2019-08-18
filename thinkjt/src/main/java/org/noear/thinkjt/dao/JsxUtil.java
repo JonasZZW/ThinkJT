@@ -96,7 +96,7 @@ public class JsxUtil {
     public  String compilerApiAsFun(String name,AFileModel api) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("function API_").append(name).append("(ctx){");
+        sb.append("this.API_").append(name).append("=function(ctx){");
         sb.append("\r\n\r\n");
         sb.append(api.content);
         sb.append("\r\n\r\n};");
@@ -108,6 +108,13 @@ public class JsxUtil {
                     .append("new API_")
                     .append(name)
                     .append("();");
+
+            sb.append("__global.lib['")
+                    .append(api.path)
+                    .append("']=")
+                    .append("API_")
+                    .append(name)
+                    .append(".g;");
         }
 
         return sb.toString();

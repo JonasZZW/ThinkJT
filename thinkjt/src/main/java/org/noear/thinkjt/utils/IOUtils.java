@@ -33,7 +33,7 @@ public class IOUtils {
         return swapStream.toString(charset);
     }
 
-    public static final InputStream trans(OutputStream out){
+    public static final InputStream outToIn(OutputStream out){
         ByteArrayOutputStream out2 = (ByteArrayOutputStream) out;
         final ByteArrayInputStream in2 = new ByteArrayInputStream(out2.toByteArray());
         return in2;

@@ -43,6 +43,7 @@ public class InitUtil {
                 "  `name` varchar(99) NOT NULL COMMENT '名称',\n" +
                 "  `value` varchar(999) NOT NULL DEFAULT '' COMMENT '值',\n" +
                 "  `note` varchar(99) NOT NULL DEFAULT '' COMMENT '备注',\n" +
+                "  `edit_mode` varchar(40) DEFAULT NULL COMMENT '编辑模式',\n" +
                 "  `is_disabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT '禁止使用',\n" +
                 "  `is_exclude` tinyint(1) NOT NULL DEFAULT '0' COMMENT '排除导入',\n" +
                 "  `is_modified` tinyint(1) NOT NULL DEFAULT '0' COMMENT '可修改的（终端用户）',\n" +
