@@ -64,6 +64,7 @@ public class DbApi {
                 .getDataList().toArray(0);
     }
 
+
     public static boolean fileSet(int fid, String fcontent) throws Exception {
         if(fid<1){
             return false;
@@ -153,6 +154,16 @@ public class DbApi {
         DbUtil.cache.clear("cfg_"+name);
 
         return is_ok;
+    }
+
+
+    public static List<AImageModel> imgGetJars() throws Exception{
+        return
+                db().table("a_image")
+                        .where("label=?","extend.jar")
+                        .and("content_type=?","application/java-archive")
+                        .select("path,data,note")
+                        .getList(AImageModel.class);
     }
 
 
@@ -307,4 +318,6 @@ public class DbApi {
             return 0;
         }
     }
+
+
 }

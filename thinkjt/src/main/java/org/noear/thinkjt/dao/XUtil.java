@@ -322,7 +322,7 @@ public class XUtil {
         return true;
     }
 
-    @XNote("文件刷新缓存")
+    @XNote("重启缓存")
     public boolean restart() {
         AFileUtil.removeAll();
         AImageUtil.removeAll();
@@ -331,10 +331,8 @@ public class XUtil {
         DbUtil.cache.clear();
         SufHandler.g().reset();
         RouteHelper.reset();
-
         return true;
     }
-
 
     /**
      *
@@ -453,6 +451,12 @@ public class XUtil {
     @XNote("加载插件里的jar包")
     public boolean loadJar(String path, String data64, String plugin) throws Exception {
         return JarUtils.loadJar(path,data64,plugin);
+    }
+
+    @XNote("重新加载所有插件里的jar包")
+    public boolean loadJarTry() {
+        InitUtil.tryInitJar();
+        return true;
     }
 
     @XNote("调用一个文件")

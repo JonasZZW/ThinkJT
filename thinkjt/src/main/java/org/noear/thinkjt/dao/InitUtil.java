@@ -3,6 +3,7 @@ package org.noear.thinkjt.dao;
 import org.noear.thinkjt.Config;
 import org.noear.thinkjt.utils.Base64Utils;
 import org.noear.thinkjt.utils.HttpUtils;
+import org.noear.thinkjt.utils.JarUtils;
 import org.noear.thinkjt.utils.TextUtils;
 import org.noear.snack.ONode;
 import org.noear.solon.core.XMap;
@@ -25,7 +26,7 @@ public class InitUtil {
 
     public static void tryInitDb(){
         try{
-            do_initDb();
+             do_initDb();
         }catch (Throwable ex){
             ex.printStackTrace();
         }
@@ -36,6 +37,7 @@ public class InitUtil {
         if (num >= 5) {
             return;
         }
+
         db().sql("CREATE TABLE IF NOT EXISTS `a_config` (\n" +
                 "  `cfg_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '配置ID',\n" +
                 "  `tag` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '分组标签',\n" +
@@ -152,7 +154,7 @@ public class InitUtil {
 
     public static void tryInitCore(XMap map){
         try{
-            do_initCore(map);
+             do_initCore(map);
         }catch (Throwable ex){
             ex.printStackTrace();
         }
@@ -249,7 +251,7 @@ public class InitUtil {
                 .where("path='/'")
                 .update();
 
-        System.out.println("Complete _core loading");
+
 
         //
         // /////////////
@@ -263,6 +265,8 @@ public class InitUtil {
 //            v = "CREATE TABLE IF NOT EXISTS " + Base64Utils.decode(v).substring(12);
 //            db().sql(v).execute();
 //        }
+
+        System.out.println("Complete _core loading");
     }
 
     public static String tryInitExtend(XMap xarg) {
@@ -320,5 +324,20 @@ public class InitUtil {
         fw.write(sb.toString());
         fw.flush();
         fw.close();
+    }
+
+
+    public static void tryInitJar(){
+        try {
+            DbApi.imgGetJars().forEach((img) -> {
+                try {
+                    JarUtils.loadJar(img.path, img.data, img.note);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            });
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

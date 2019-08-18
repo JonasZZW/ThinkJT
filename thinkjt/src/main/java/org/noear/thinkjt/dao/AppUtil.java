@@ -3,6 +3,7 @@ package org.noear.thinkjt.dao;
 import org.noear.thinkjt.Config;
 import org.noear.thinkjt.controller.*;
 import org.noear.thinkjt.utils.IOUtils;
+import org.noear.thinkjt.utils.JarUtils;
 import org.noear.thinkjt.utils.TextUtils;
 import org.noear.solon.XApp;
 import org.noear.solon.XProperties;
@@ -30,6 +31,7 @@ public class AppUtil {
         InitUtil.tryInitDb();
         InitUtil.tryInitCore(xarg);
     }
+
 
     public static void runAsInit(XApp app, String extend){
         URL temp = org.noear.solon.XUtil.getResource("setup.htm");

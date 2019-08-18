@@ -11,5 +11,7 @@ public class AImageModel {
     public String content_type;
     /** 数据 */
     public String data;
+    /** 备注 */
+    public String note;
 
 }
