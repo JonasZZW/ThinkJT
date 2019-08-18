@@ -325,19 +325,4 @@ public class InitUtil {
         fw.flush();
         fw.close();
     }
-
-
-    public static void tryInitJar(){
-        try {
-            DbApi.imgGetJars().forEach((img) -> {
-                try {
-                    JarUtils.loadJar(img.path, img.data, img.note);
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            });
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
 }

@@ -453,12 +453,6 @@ public class XUtil {
         return JarUtils.loadJar(path,data64,plugin);
     }
 
-    @XNote("重新加载所有插件里的jar包")
-    public boolean loadJarTry() {
-        InitUtil.tryInitJar();
-        return true;
-    }
-
     @XNote("调用一个文件")
     public Object call(String path) throws Exception {
         return CallUtil.callFile(path);

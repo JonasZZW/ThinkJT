@@ -156,17 +156,6 @@ public class DbApi {
         return is_ok;
     }
 
-
-    public static List<AImageModel> imgGetJars() throws Exception{
-        return
-                db().table("a_image")
-                        .where("label=?","extend.jar")
-                        .and("content_type=?","application/java-archive")
-                        .select("path,data,note")
-                        .getList(AImageModel.class);
-    }
-
-
     public static AImageModel imgGet(String path) throws Exception{
         return db().table("a_image")
                 .where("`path`=?",path)
