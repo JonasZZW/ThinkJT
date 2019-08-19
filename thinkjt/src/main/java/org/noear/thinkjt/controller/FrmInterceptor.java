@@ -8,7 +8,7 @@ import org.noear.thinkjt.utils.ExceptionUtils;
 import java.io.PrintWriter;
 
 /**
- * 拉截器的代理（数据库安全）
+ * 路径拦截器的代理（数据库安全）
  * */
 public class FrmInterceptor implements XHandler {
     public static final FrmInterceptor g = new FrmInterceptor();

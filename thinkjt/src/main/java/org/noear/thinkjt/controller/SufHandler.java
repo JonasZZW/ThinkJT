@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 某类后缀文件的代理（数据库安全）
+ * 后缀拦截器的代理（数据库安全）
  * */
 public class SufHandler implements XHandler {
     private HashMap<String,String> _sufMap = new HashMap<>();

@@ -241,30 +241,16 @@ public class InitUtil {
                 .where("name=?", "_frm_admin_pwd")
                 .update();
 
-//        db().table("a_config")
-//                .set("value", "1")
-//                .where("name=?", "_frm_enable_dev")
-//                .update();
+        db().table("a_config")
+                .set("value", "0")
+                .where("name=?", "_frm_enable_dev")
+                .update();
 
         db().table("a_file")
                 .set("link_to", "")
                 .where("path='/'")
                 .update();
 
-
-
-        //
-        // /////////////
-        //
-//
-//        //3.业务表结构
-//        ONode j_tb = body.get("dbtable");
-//
-//        for(String k : j_tb.asMap().keySet()){
-//            String v = j_tb.get(k).getString();
-//            v = "CREATE TABLE IF NOT EXISTS " + Base64Utils.decode(v).substring(12);
-//            db().sql(v).execute();
-//        }
 
         System.out.println("Complete _core loading");
     }
