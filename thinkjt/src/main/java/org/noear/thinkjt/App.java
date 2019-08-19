@@ -19,6 +19,7 @@ public class App {
         }
 
         //2.加载扩展目录（包括：配置、jar）
+        ExtendUtil.init(extend);
         ExtendLoader.load(extend, xarg);
 
         xarg.put("extend",extend);

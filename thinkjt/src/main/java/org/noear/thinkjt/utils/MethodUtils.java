@@ -22,7 +22,7 @@ public class MethodUtils {
             }
         });
 
-        Collections.sort(list, (m1, m2) -> m1.get("name").toString().toLowerCase().compareTo(m2.get("name").toString().toLowerCase()));
+        Collections.sort(list, Comparator.comparing(m -> m.get("name").toString().toLowerCase()));
 
         return list;
     }

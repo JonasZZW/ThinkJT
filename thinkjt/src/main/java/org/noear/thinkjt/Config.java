@@ -10,6 +10,9 @@ public class Config {
     public static final String code_ext="jt_ext";
 
     public static final String frm_root_img = DbApi.cfgGet("_frm_root_img","/img/");
-    public static final String frm_actoin_suffix = DbApi.cfgGet("_frm_actoin_suffix",".jsx");
+
+
+    public static final String filter_file="filter.file";
+    public static final String filter_path="filter.path";
 
 }

@@ -1,6 +1,8 @@
 package org.noear.thinkjt.dao;
 
 import net.coobird.thumbnailator.Thumbnails;
+import org.noear.thinkjt.Config;
+import org.noear.thinkjt.controller.FrmInterceptor;
 import org.noear.thinkjt.controller.SufHandler;
 import org.noear.thinkjt.utils.*;
 import org.noear.snack.ONode;
@@ -322,6 +324,43 @@ public class XUtil {
         return true;
     }
 
+    @XNote("文件刷新缓存")
+    public boolean fileFlush(String path, boolean is_del, String label, String note) {
+        String path2 = path;
+        String name = path2.replace("/", "__");
+
+        AFileUtil.remove(path2);
+        FtlUtil.g().del(name);
+        JsxUtil.g().del(name);
+
+        //应用路由
+        if(is_del){
+            RouteHelper.del(path);
+        }else{
+            RouteHelper.add(path);
+        }
+
+        //后缀拦截器
+        if(Config.filter_file.equals(label)){
+            if(is_del){
+                SufHandler.g().del(note);
+            }else{
+                SufHandler.g().add(path,note);
+            }
+        }
+
+        //路径拦截器
+        if(Config.filter_path.equals(label)){
+            if(is_del){
+                FrmInterceptor.g().del(note);
+            }else{
+                FrmInterceptor.g().add(path,note);
+            }
+        }
+
+        return true;
+    }
+
     @XNote("重启缓存")
     public boolean restart() {
         AFileUtil.removeAll();
@@ -329,7 +368,10 @@ public class XUtil {
         FtlUtil.g().delAll();
         JsxUtil.g().delAll();
         DbUtil.cache.clear();
+
         SufHandler.g().reset();
+        FrmInterceptor.g().reset();
+
         RouteHelper.reset();
         return true;
     }
@@ -338,7 +380,7 @@ public class XUtil {
      *
      ****************************/
     @XNote("获取接口列表")
-    public List<Map<String, Object>> apiList() {
+    public List<Map<String, Object>> sharedList() {
         Map<String, Object> tmp = new HashMap<>();
 
         tmp.putAll(XApp.global().shared());
@@ -356,6 +398,16 @@ public class XUtil {
         tmp.put("new Timespan(date)", Timespan.class);
 
         return MethodUtils.getMethods(tmp);
+    }
+
+    @XNote("获取扩展目录下的文件")
+    public List<String> extendList(){
+        return ExtendUtil.scan();
+    }
+
+    @XNote("删除扩展目录下的文件")
+    public boolean extendDel(String name){
+        return ExtendUtil.del(name);
     }
 
 
@@ -460,7 +512,12 @@ public class XUtil {
 
     @XNote("调用一组勾子")
     public String callHook(String tag,String label) {
-        return CallUtil.callHook(tag, label);
+        return CallUtil.callHook(tag, label,false);
+    }
+
+    @XNote("调用一组勾子")
+    public String callHook(String tag,String label, boolean isCache) {
+        return CallUtil.callHook(tag, label,isCache);
     }
 
     @XNote("日志")

@@ -1,5 +1,6 @@
 package org.noear.thinkjt.dao;
 
+import org.noear.thinkjt.Config;
 import org.noear.thinkjt.utils.Datetime;
 import org.noear.thinkjt.utils.TextUtils;
 import org.noear.solon.core.XContext;
@@ -7,6 +8,7 @@ import org.noear.weed.DbContext;
 import org.noear.weed.DbTableQuery;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +47,11 @@ public class DbApi {
                 .getItem(AFileModel.class);
     }
 
-    public static List<AFileModel> fileGetPaths(String tag,String label) throws Exception {
+    public static List<AFileModel> fileGetPaths(String tag,String label, boolean isCache) throws Exception {
+        if(TextUtils.isEmpty(tag) && TextUtils.isEmpty(label)){
+            return new ArrayList<>();
+        }
+
         return db().table("a_file").where("1=1").expre((tb) -> {
                     if (TextUtils.isEmpty(tag) == false) {
                         tb.and("`tag`=?", tag);
@@ -56,6 +62,8 @@ public class DbApi {
                     }
                 })
                 .select("path,note")
+                .caching(DbUtil.cache)
+                .usingCache(isCache)
                 .getList(AFileModel.class);
     }
 
@@ -103,7 +111,7 @@ public class DbApi {
     public static List<AFileModel> fileFilters() throws Exception{
         return
         DbUtil.db().table("a_file")
-                .where("`label` = ?","filter.file")
+                .where("`label` = ?", Config.filter_file)
                 .select("path,note")
                 .getList(AFileModel.class);
 
@@ -112,7 +120,7 @@ public class DbApi {
     public static List<AFileModel> pathFilters() throws Exception{
         return
                 DbUtil.db().table("a_file")
-                        .where("`label` = ?","filter.path")
+                        .where("`label` = ?",Config.filter_path)
                         .select("path,note")
                         .getList(AFileModel.class);
 

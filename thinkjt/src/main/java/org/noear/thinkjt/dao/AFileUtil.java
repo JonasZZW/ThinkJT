@@ -26,24 +26,6 @@ public class AFileUtil {
     }
 
     /**
-     * 生成拉截器的路径
-     * */
-    public static String path3(String path) {
-        String[] temp = path.split("/",-1);
-
-        if (temp.length > 2) {
-            return new StringBuilder()
-                    .append("/")
-                    .append(temp[1])
-                    .append("/_")
-                    .append(Config.frm_actoin_suffix)
-                    .toString();
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * 获取缓存的文件
      * */
     public static AFileModel get(String path2) throws Exception {

@@ -1,5 +1,6 @@
 package org.noear.thinkjt.controller;
 
+import org.noear.thinkjt.Config;
 import org.noear.thinkjt.dao.*;
 import org.noear.thinkjt.utils.TextUtils;
 import org.noear.solon.core.XContext;
@@ -9,15 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 后缀拦截器的代理（数据库安全）
+ * 文件后缀拦截器的代理（数据库安全）
  * */
 public class SufHandler implements XHandler {
-    private HashMap<String,String> _sufMap = new HashMap<>();
-
     private static final SufHandler _g = new SufHandler();
     public static SufHandler g(){
         return  _g;
     }
+
+
 
     private SufHandler(){
         reset();
@@ -26,11 +27,11 @@ public class SufHandler implements XHandler {
     @Override
     public void handle(XContext ctx) throws Exception {
         String path = ctx.path();
-        for (String suf : _sufMap.keySet()) {
+        for (String suf : _cacheMap.keySet()) {
             if (path.endsWith(suf)) {
                 ctx.setHandled(true);
 
-                exec(ctx, _sufMap.get(suf));
+                exec(ctx, _cacheMap.get(suf));
                 return;
             }
         }
@@ -48,7 +49,46 @@ public class SufHandler implements XHandler {
             return;
         }
 
+        //不支持后缀代理，跳过
+        if (Config.filter_file.equals(file.label) == false) {
+            return;
+        }
+
         ExcUtil.exec(name,file,ctx);
+    }
+
+
+
+    private HashMap<String,String> _cacheMap = new HashMap<>();
+    public void del(String note) {
+        if (TextUtils.isEmpty(note)) {
+            return;
+        }
+
+        String suf = note.split("#")[0];
+        if (suf.length()>0) {
+            if (suf.startsWith(".")) {
+                _cacheMap.remove(suf);
+            } else {
+                _cacheMap.remove("." + suf);
+            }
+        }
+    }
+
+    public void add(String path, String note){
+        if(TextUtils.isEmpty(note)){
+            return;
+        }
+
+        String suf = note.split("#")[0];
+
+        if (suf.length()>0) {
+            if (suf.startsWith(".")) {
+                _cacheMap.put(suf, path);
+            } else {
+                _cacheMap.put("." + suf, path);
+            }
+        }
     }
 
     public void reset() {
@@ -57,7 +97,7 @@ public class SufHandler implements XHandler {
         }
 
         try {
-            _sufMap.clear();
+            _cacheMap.clear();
 
             List<AFileModel> list = DbApi.fileFilters();
             for (AFileModel c : list) {
@@ -69,9 +109,9 @@ public class SufHandler implements XHandler {
 
                 if (suf.length()>0) {
                     if (suf.startsWith(".")) {
-                        _sufMap.put(suf, c.path);
+                        _cacheMap.put(suf, c.path);
                     } else {
-                        _sufMap.put("." + suf, c.path);
+                        _cacheMap.put("." + suf, c.path);
                     }
                 }
             }

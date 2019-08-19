@@ -105,13 +105,13 @@ public class AppUtil {
             do_runSev(app);
         }
 
-        CallUtil.callHook(null, "hook.start");
+        CallUtil.callHook(null, "hook.start", false);
     }
 
     private static void do_runWeb(XApp app) {
         //拉截代理
-        app.before("/**", XMethod.GET, FrmInterceptor.g);
-        app.before("/**", XMethod.POST, FrmInterceptor.g);
+        app.before("/**", XMethod.GET, FrmInterceptor.g());
+        app.before("/**", XMethod.POST, FrmInterceptor.g());
 
 
         //资源代理(/img/**)

@@ -3,6 +3,8 @@ package org.noear.thinkjt.dao;
 import org.noear.thinkjt.utils.TextUtils;
 import org.noear.solon.core.XContext;
 
+import java.util.ArrayList;
+
 public class CallUtil {
 
     private static Object do_call(String path, boolean asApi) throws Exception {
@@ -28,11 +30,15 @@ public class CallUtil {
     /**
      * 调用勾子。勾子调用不能出错，以免影响主业务
      */
-    public static String callHook(String tag,String label) {
+    public static String callHook(String tag,String label, boolean isCache) {
+        if(TextUtils.isEmpty(tag) && TextUtils.isEmpty(label)){
+            return "";
+        }
+
         StringBuilder sb = new StringBuilder();
 
         try {
-            DbApi.fileGetPaths(tag,label)
+            DbApi.fileGetPaths(tag,label,isCache)
                     .forEach((f) -> {
                         try {
                             Object tmp = do_call(f.path, true);
