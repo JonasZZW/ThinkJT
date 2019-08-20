@@ -343,7 +343,7 @@ public class XUtil {
         //后缀拦截器
         if(Config.filter_file.equals(label)){
             if(is_del){
-                SufHandler.g().del(note);
+                SufHandler.g().del(note);//文件后缀，只能有一个代理；所以用suf
             }else{
                 SufHandler.g().add(path,note);
             }
@@ -352,7 +352,7 @@ public class XUtil {
         //路径拦截器
         if(Config.filter_path.equals(label)){
             if(is_del){
-                FrmInterceptor.g().del(note);
+                FrmInterceptor.g().del(path);//文件路径，可以有多个；所以用path
             }else{
                 FrmInterceptor.g().add(path,note);
             }

@@ -29,14 +29,22 @@ public class FrmInterceptor implements XHandler {
     public void handle(XContext ctx) throws Exception {
         String path = ctx.path();
 
-        for (String p1 : _cacheMap.keySet()) {
-            if (path.startsWith(p1)) {
-                exec(ctx, _cacheMap.get(p1));
-                return;
+        _cacheMap.forEach((path2,suf)->{
+            if (path.startsWith(suf)) {
+                exec(ctx, path2);
             }
+        });
+    }
+
+    private void exec(XContext ctx, String path2){
+        try{
+            do_exec(ctx,path2);
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
     }
-    private void exec(XContext ctx, String path2) throws Exception {
+
+    private void do_exec(XContext ctx, String path2) throws Exception {
         AFileModel file = AFileUtil.get(path2);
 
         if (file.file_id == 0) {
@@ -51,7 +59,7 @@ public class FrmInterceptor implements XHandler {
         String name = path2.replace("/", "__");
 
         try {
-            JsxUtil.g().runApi(name, file, true);
+            JsxUtil.g().runApi(name, file, false);
         }catch (Exception ex) {
             String err = ExceptionUtils.getString(ex);
             ctx.output(err);
@@ -62,33 +70,25 @@ public class FrmInterceptor implements XHandler {
     }
 
     private HashMap<String,String> _cacheMap = new HashMap<>();
-    public void del(String note) {
+    public void del(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return;
+        }
+
+        _cacheMap.remove(path);
+    }
+    public void add(String path, String note) {
         if (TextUtils.isEmpty(note)) {
             return;
         }
 
         String suf = note.split("#")[0];
-        if (suf.length() > 0) {
-            if (suf.startsWith("/")) {
-                _cacheMap.remove(suf);
-            } else {
-                _cacheMap.remove("/" + suf);
-            }
-        }
-    }
-    public void add(String path, String note){
-        if(TextUtils.isEmpty(note)){
-            return;
-        }
 
-        String suf = note.split("#")[0];
-
-        if (suf.length()>0) {
-            if (suf.startsWith("/")) {
-                _cacheMap.put(suf, path);
-            } else {
-                _cacheMap.put("/" + suf, path);
-            }
+        //要有字符，且必须是目录
+        if (suf.length() > 3 &&
+                suf.endsWith("/") &&
+                suf.startsWith("/")) {
+            _cacheMap.put(path, suf);
         }
     }
 
@@ -108,12 +108,10 @@ public class FrmInterceptor implements XHandler {
 
                 String suf = c.note.split("#")[0];
 
-                if (suf.length()>0) {
-                    if (suf.startsWith("/")) {
-                        _cacheMap.put(suf, c.path);
-                    } else {
-                        _cacheMap.put("/" + suf, c.path);
-                    }
+                if (suf.length()>3 &&
+                        suf.endsWith("/") &&
+                        suf.startsWith("/")) {
+                    _cacheMap.put(c.path, suf);
                 }
             }
         } catch (Exception ex) {
