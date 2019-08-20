@@ -110,6 +110,7 @@ public class InitUtil {
                 "  `tag1` varchar(99) NOT NULL DEFAULT '' COMMENT '标签1',\n" +
                 "  `tag2` varchar(99) NOT NULL DEFAULT '' COMMENT '标签2',\n" +
                 "  `tag3` varchar(99) NOT NULL DEFAULT '' COMMENT '标签3',\n" +
+                "  `tag4` varchar(99) NOT NULL DEFAULT '' COMMENT '标签4',\n" +
                 "  `summary` varchar(1000) NOT NULL DEFAULT '' COMMENT '摘要',\n" +
                 "  `content` longtext COMMENT '内容',\n" +
                 "  `log_date` int(11) NOT NULL DEFAULT '0' COMMENT '记录日期',\n" +
@@ -119,7 +120,8 @@ public class InitUtil {
                 "  KEY `IX_tag` (`tag`) USING BTREE,\n" +
                 "  KEY `IX_tag1` (`tag1`) USING BTREE,\n" +
                 "  KEY `IX_tag2` (`tag2`) USING BTREE,\n" +
-                "  KEY `IX_tag3` (`tag3`) USING BTREE\n" +
+                "  KEY `IX_tag3` (`tag3`) USING BTREE,\n" +
+                "  KEY `IX_tag4` (`tag4`) USING BTREE\n" +
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='jt-日志表';").execute();
 
         db().sql("CREATE TABLE IF NOT EXISTS `a_plugin` (\n" +

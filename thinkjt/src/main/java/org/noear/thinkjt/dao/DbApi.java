@@ -258,6 +258,7 @@ public class DbApi {
         map.put("tag1", data.get("tag1"));
         map.put("tag2", data.get("tag2"));
         map.put("tag3", data.get("tag3"));
+        map.put("tag4", data.get("tag4"));
         map.put("summary", data.get("summary"));
         map.put("content", data.get("content"));
 
@@ -275,7 +276,7 @@ public class DbApi {
     }
 
 
-    public static long do_log(String tag, String tag1,String tag2, String tag3,int level,String summary,String content)  {
+    public static long do_log(String tag, String tag1,String tag2, String tag3, String tag4,int level,String summary,String content)  {
         Map<String,Object> map = new HashMap<>();
 
         if(tag != null){
@@ -292,6 +293,10 @@ public class DbApi {
 
         if(tag3 != null){
             map.put("tag3", tag3);
+        }
+
+        if(tag4 != null){
+            map.put("tag4", tag4);
         }
 
         if(summary != null){
