@@ -47,8 +47,7 @@ public class TaskProcessor implements TaskUtil.ITask {
 
     private void doExec(AFileModel task) {
         try {
-            do_runTask(task);
-            //runTask(task);
+            runTask(task);
         } catch (Exception ex) {
             ex.printStackTrace();
 
