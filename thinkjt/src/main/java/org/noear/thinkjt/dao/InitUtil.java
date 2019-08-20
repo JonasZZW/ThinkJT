@@ -72,7 +72,7 @@ public class InitUtil {
                 "  `content` longtext COMMENT '内容',\n" +
                 "  `note` varchar(99) DEFAULT '' COMMENT '备注',\n" +
                 "  `plan_state` int(11) NOT NULL DEFAULT '0' COMMENT '计划状态',\n" +
-                "  `plan_begin_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '计划开始执行时间',\n" +
+                "  `plan_begin_time` datetime DEFAULT NULL COMMENT '计划开始执行时间',\n" +
                 "  `plan_last_time` datetime DEFAULT NULL COMMENT '计划最后执行时间',\n" +
                 "  `plan_last_timespan` bigint(20) NOT NULL DEFAULT '0' COMMENT '计划最后执行时间长度',\n" +
                 "  `plan_interval` varchar(10) NOT NULL DEFAULT '' COMMENT '计划执行间隔',\n" +
