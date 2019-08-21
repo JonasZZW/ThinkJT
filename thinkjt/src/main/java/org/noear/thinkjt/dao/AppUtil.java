@@ -78,10 +78,10 @@ public class AppUtil {
      * */
     public static void runAsWork(XApp app) {
 
-        String max_size = DbApi.cfgGet("max_form_content_size");
+        String max_post_size = DbApi.cfgGet("http_max_post_size");
 
-        if (TextUtils.isEmpty(max_size) == false) {
-            app.prop().setProperty("org.eclipse.jetty.server.Request.maxFormContentSize", max_size);
+        if (TextUtils.isEmpty(max_post_size) == false) {
+            app.prop().setProperty("org.eclipse.jetty.server.Request.maxFormContentSize", max_post_size);
         }
 
 

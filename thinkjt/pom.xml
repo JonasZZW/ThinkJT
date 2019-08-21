@@ -6,7 +6,7 @@
 
     <groupId>org.noear</groupId>
     <artifactId>thinkjt</artifactId>
-    <version>0.1.7.2</version>
+    <version>0.1.7.3</version>
     <packaging>jar</packaging>
 
     <name>jt</name>

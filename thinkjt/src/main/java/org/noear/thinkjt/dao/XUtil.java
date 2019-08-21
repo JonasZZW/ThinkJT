@@ -480,7 +480,12 @@ public class XUtil {
 
     @XNote("生成分页数据模型")
     public PagingModel paging(XContext ctx, int pageSize) {
-        return new PagingModel(ctx, pageSize);
+        return new PagingModel(ctx, pageSize, false);
+    }
+
+    @XNote("生成分页数据模型")
+    public PagingModel paging(XContext ctx, int pageSize, boolean fixedSize) {
+        return new PagingModel(ctx, pageSize, fixedSize);
     }
 
     @XNote("格式化活动时间")
