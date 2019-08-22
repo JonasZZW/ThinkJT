@@ -61,8 +61,15 @@ public class XUtil {
             synchronized (cfg) {
                 tmp = _db_cache.get(cfg);
 
-                if (tmp != null) {
-                    String[] args = cfg.split(" ");
+                if (tmp == null) {
+                    List<String> args = new ArrayList<>();
+                    String[] strs = cfg.split(" |\n|\r|\t");
+                    for(int i=0,len=strs.length; i<len; i++){
+                        if(strs[i].length()>0){
+                            args.add(strs[i]);
+                        }
+                    }
+
                     tmp = DbUtil.getDb(XMap.from(args));
 
                     if (tmp != null) {
@@ -379,7 +386,7 @@ public class XUtil {
     /**
      *
      ****************************/
-    @XNote("获取接口列表")
+    @XNote("获取共享对象列表（接口清单）")
     public List<Map<String, Object>> sharedList() {
         Map<String, Object> tmp = new HashMap<>();
 
@@ -398,6 +405,20 @@ public class XUtil {
         tmp.put("new Timespan(date)", Timespan.class);
 
         return MethodUtils.getMethods(tmp);
+    }
+
+    @XNote("添加共享对象")
+    public boolean sharedAdd(String key, Object obj){
+        if(TextUtils.isEmpty(key)){
+            return false;
+        }
+
+        if(key.startsWith("_")) {
+            XApp.global().sharedAdd(key, obj);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @XNote("获取扩展目录下的文件")
